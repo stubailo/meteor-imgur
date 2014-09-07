@@ -1,8 +1,6 @@
 Meteor Imgur Upload Package
 ============
 
-> Will be published as soon as Meteor 0.9.2 is released.
-
 `meteor add sashko:imgur`
 
 A meteor package that lets you upload images to Imgur. Is very nice to use with [`mdg:camera`](https://github.com/meteor/mobile-packages/tree/master/packages/mdg:camera), as in the example app included in this repo.
