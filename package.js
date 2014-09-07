@@ -5,7 +5,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.use(["check", "http"]);
+  api.use(["check", "http", "underscore"]);
   api.versionsFrom('METEOR@0.9.1.1');
   api.addFiles('imgur.js');
   api.export("Imgur");

@@ -2,6 +2,10 @@ if (Meteor.isClient) {
   Template.body.helpers({
     photoUrl: function () {
       return Session.get("photo");
+    },
+    thumbSizes: ["s", "b", "t", "m"],
+    thumb: function () {
+      return Imgur.toThumbnail(Session.get("photo"), this.valueOf());
     }
   });
 
@@ -17,8 +21,7 @@ if (Meteor.isClient) {
         } else {
           Imgur.upload({
             image: data,
-            apiKey: Config.imgurApiKey,
-            type: "base64"
+            apiKey: Config.imgurApiKey
           }, function (error, data) {
             if (error) {
               throw error;

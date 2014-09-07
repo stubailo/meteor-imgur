@@ -8,5 +8,13 @@
 
   {{#if photoUrl}}
     <div><img src="{{photoUrl}}" /></div>
+
+    <h2>Thumbnails</h2>
+    {{#each thumbSizes}}
+      <div>
+        <h3>Thumbnail size: {{this}}</h3>
+        <img src="{{thumb}}" />
+      </div>
+    {{/each}}
   {{/if}}
 </body>

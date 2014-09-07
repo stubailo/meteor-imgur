@@ -12,6 +12,8 @@ Imgur = {
    * As described in the
    * [Imgur Documentation](https://api.imgur.com/endpoints/image#image-upload).
    * @param  {Function} callback Required callback that gets an error or results
+   * in the format described in the
+   * [Imgur docs](https://api.imgur.com/models/image).
    */
   upload: function (options, callback) {
     check(options, {
@@ -54,5 +56,29 @@ Imgur = {
           "Imgur request unsuccessful."));
       }
     });
+  },
+
+  /**
+   * @summary Transform an Imgur link into a thumbnail link of a certain size.
+   * @param  {String} imgurLink An Imgur image link as returned by Imgur.upload
+   * @param  {String} size   One of the size constants, or "Thumbnail Suffix"
+   * options in the [Imgur docs](https://api.imgur.com/models/image).
+   * @return {String} The URL of the thumbnail image.
+   */
+  toThumbnail: function (imgurLink, size) {
+    check(imgurLink, String);
+    check(size, String);
+    var split = imgurLink.split(".");
+    return _.initial(split).join(".") + size + "." + _.last(split);
   }
 };
+
+// Add the thumbnail size constants
+_.extend(Imgur, {
+  SMALL_SQUARE: "s",
+  BIG_SQUARE: "b",
+  SMALL_THUMBNAIL: "t",
+  MEDIUM_THUMBNAIL: "m",
+  LARGE_THUMBNAIL: "l",
+  HUGE_THUMBNAIL: "h"
+});
