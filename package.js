@@ -1,6 +1,6 @@
 Package.describe({
   summary: "A package to image data to Imgur with one function call.",
-  version: "1.0.0",
+  version: "1.0.1",
   git: "https://github.com/stubailo/meteor-imgur"
 });
 
