@@ -1,0 +1,35 @@
+{
+  "dependencies": [
+    [
+      "check",
+      "1.0.0"
+    ],
+    [
+      "ejson",
+      "1.0.1-rc0"
+    ],
+    [
+      "http",
+      "1.0.5-rc0"
+    ],
+    [
+      "json",
+      "1.0.0"
+    ],
+    [
+      "meteor",
+      "1.1.0-rc0"
+    ],
+    [
+      "underscore",
+      "1.0.0"
+    ],
+    [
+      "url",
+      "1.0.0-rc0"
+    ]
+  ],
+  "pluginDependencies": [],
+  "toolVersion": "meteor-tool@1.0.28-cordova6",
+  "format": "1.0"
+}

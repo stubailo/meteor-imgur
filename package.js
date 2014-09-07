@@ -1,16 +1,14 @@
 Package.describe({
   summary: "A package to upload image data to Imgur.",
   version: "1.0.0",
-  git: ""
+  git: "https://github.com/stubailo/meteor-imgur"
 });
 
 Package.onUse(function(api) {
+  api.use(["check", "http"]);
   api.versionsFrom('METEOR@0.9.1.1');
-  api.addFiles('sashko:imgur.js');
+  api.addFiles('imgur.js');
+  api.export("Imgur");
 });
 
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('sashko:imgur');
-  api.addFiles('sashko:imgur-tests.js');
-});
+// No tests because it's just an API wrapper
