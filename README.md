@@ -23,6 +23,7 @@ Both API methods work on client and server.
 
 - `apiKey` the Imgur Client ID. Get it by signing up for the API at <https://api.imgur.com/oauth2/addclient>.
 - `image` the image data, can a base64-encoded image data string or the URL of an image somewhere on the internet.
+- `mashapeKey` optional Mashape key, necessary for commercial use apps. If provided, the method will request to the mashape endpoint instead of the regular imgur one.
 - `type`, `name`, `title`, `description`, `album` optional properties exactly as documented at <https://api.imgur.com/endpoints/image#image-upload>.
 
 ---

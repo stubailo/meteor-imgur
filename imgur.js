@@ -8,6 +8,7 @@ Imgur = {
    * @param  {Object}   options Required options Object
    * @param {String} options.apiKey The Imgur API key for this app
    * @param {String} options.image The data URI or image URL to upload
+   * @param {String} options.mashapeKey The Mashape Key for this app
    * @param {String} options.type,name,title,description,album
    * As described in the
    * [Imgur Documentation](https://api.imgur.com/endpoints/image#image-upload).
@@ -19,6 +20,7 @@ Imgur = {
     check(options, {
       apiKey: String,
       image: String,
+      mashapeKey: Match.Optional(String),
       type: Match.Optional(ValidImgurType),
       name: Match.Optional(String),
       title: Match.Optional(String),
@@ -38,11 +40,19 @@ Imgur = {
       "description", "album"];
     _.extend(data, _.pick(options, passThrough));
 
-    HTTP.post("https://api.imgur.com/3/image", {
+    var endpoint = "https://api.imgur.com";
+    var headers = {
+      Authorization: "Client-ID " + options.apiKey,
+    };
+
+    if (options.mashapeKey) {
+      endpoint = "https://imgur-apiv3.p.mashape.com";
+      headers['X-Mashape-Key'] = options.mashapeKey;
+    }
+
+    HTTP.post(endpoint + "/3/image", {
       data: data,
-      headers: {
-        Authorization: "Client-ID " + options.apiKey
-      }
+      headers: headers
     }, function (error, result) {
       if (error) {
         callback(error);
