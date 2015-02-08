@@ -17,12 +17,12 @@ Both API methods work on client and server.
 1. `options` (required) an object with options, described below.
 2. `callback(error, data)` (required) a callback that is called with two arguments, 'error', and 'data'.
     1. `error` a Meteor.Error describing the reason the photo could not be uploaded.
-    2. `data` an object that contains the response from the Imgur API, [documented here](https://api.imgur.com/models/image). The most useful property is `data.link`, which contains the URL of the newly uploaded image.
+    2. `data` an object that contains the response from the Imgur API, [documented here](https://api.imgur.com/models/image). The most useful properties are `data.link`, which contains the URL of the newly uploaded image, and `data.deletehash`, which contains the id used for deleting the image later on.
     
 #### Options
 
 - `apiKey` the Imgur Client ID. Get it by signing up for the API at <https://api.imgur.com/oauth2/addclient>.
-- `image` the image data, can a base64-encoded image data string or the URL of an image somewhere on the internet.
+- `image` the image data, can be a base64-encoded image data string or the URL of an image somewhere on the internet.
 - `mashapeKey` optional Mashape key, necessary for commercial use apps. If provided, the method will request to the mashape endpoint instead of the regular imgur one.
 - `type`, `name`, `title`, `description`, `album` optional properties exactly as documented at <https://api.imgur.com/endpoints/image#image-upload>.
 
@@ -40,3 +40,20 @@ Both API methods work on client and server.
     * `Imgur.MEDIUM_THUMBNAIL`
     * `Imgur.LARGE_THUMBNAIL`
     * `Imgur.HUGE_THUMBNAIL`
+
+---
+
+### Imgur.delete(options, callback)
+
+#### Arguments
+
+1. `options` (required) an object with options, described below.
+2. `callback(error, data)` (required) a callback that is called with two arguments, 'error', and 'data'.
+    1. `error` a Meteor.Error describing the reason the photo could not be deleted.
+    2. `data` an object that contains the response from the Imgur API, [documented here](https://api.imgur.com/models/basic). In this case, a boolean value.
+    
+#### Options
+
+- `apiKey` the Imgur Client ID. Get it by signing up for the API at <https://api.imgur.com/oauth2/addclient>.
+- `deleteHash` the delete hash, retrieved in the response object of the `upload` method
+- `mashapeKey` optional Mashape key, necessary for commercial use apps. If provided, the method will request to the mashape endpoint instead of the regular imgur one.
