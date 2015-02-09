@@ -4,9 +4,10 @@
 
 <body>
   <h1>Photo Booth</h1>
-  <button>Take a photo and upload to Imgur!</button>
+  <button id="create" disabled={{waitingForApiResponse}}>Take a photo and upload to Imgur!</button>
 
   {{#if photoUrl}}
+  <button id="delete" disabled={{waitingForApiResponse}}>Delete it!</button>
     <div><img src="{{photoUrl}}" /></div>
 
     <h2>Thumbnails</h2>

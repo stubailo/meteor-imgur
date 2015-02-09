@@ -2,6 +2,20 @@ var ValidImgurType = Match.Where(function (val) {
   return val === "base64" || val === "URL";
 });
 
+/* Depending on whether Mashape key is there, set the right API settings */
+var getAPISettings = function (options) {
+    var endpoint = "https://api.imgur.com";
+    var headers = {
+      Authorization: "Client-ID " + options.apiKey,
+    };
+
+    if (options.mashapeKey) {
+      endpoint = "https://imgur-apiv3.p.mashape.com";
+      headers['X-Mashape-Key'] = options.mashapeKey;
+    }
+    return {endpoint: endpoint, headers: headers};
+};
+
 Imgur = {
   /**
    * @summary Upload an image to imgur
@@ -40,19 +54,11 @@ Imgur = {
       "description", "album"];
     _.extend(data, _.pick(options, passThrough));
 
-    var endpoint = "https://api.imgur.com";
-    var headers = {
-      Authorization: "Client-ID " + options.apiKey,
-    };
-
-    if (options.mashapeKey) {
-      endpoint = "https://imgur-apiv3.p.mashape.com";
-      headers['X-Mashape-Key'] = options.mashapeKey;
-    }
-
-    HTTP.post(endpoint + "/3/image", {
+    var api = getAPISettings(options);
+  
+    HTTP.post(api.endpoint + "/3/image", {
       data: data,
-      headers: headers
+      headers: api.headers
     }, function (error, result) {
       if (error) {
         callback(error);
@@ -67,6 +73,44 @@ Imgur = {
       }
     });
   },
+
+  /**
+   * @summary Delete an image from imgur
+   * @param  {Object} options Required options Object
+   * @param {String} options.apiKey The Imgur API key for this app
+   * @param {String} options.deleteHash The delete hash for this image, retrieved at creation
+   * @param {String} options.mashapeKey The Mashape Key for this app
+   * @param  {Function} callback Required callback that gets an error or results
+   * in the format described in the
+   * [Imgur docs](https://api.imgur.com/models/basic).
+   */
+  delete: function (options, callback) {
+    check(options, {
+      apiKey: String,
+      deleteHash: String,
+      mashapeKey: Match.Optional(String),
+    });
+    check(callback, Function);
+    
+    var api = getAPISettings(options);
+
+    HTTP.del(api.endpoint + "/3/image/" + options.deleteHash, {
+      headers: api.headers
+    }, function (error, result) {
+      if (error) {
+        callback(error);
+        return;
+      }
+
+      if (result && result.data && result.data.data) {
+        callback(null, result.data.data);
+      } else {
+        callback(new Meteor.Error(result.data.status,
+          "Imgur request unsuccessful."));
+      }
+    });
+  },
+
 
   /**
    * @summary Transform an Imgur link into a thumbnail link of a certain size.
