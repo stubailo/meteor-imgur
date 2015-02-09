@@ -6,6 +6,9 @@ if (Meteor.isClient) {
     deleteHash: function () {
       return Session.get("deleteHash");
     },
+    waitingForApiResponse: function () {
+      return Session.get("waitingForApiResponse");
+    },
     thumbSizes: ["s", "b", "t", "m"],
     thumb: function () {
       return Imgur.toThumbnail(Session.get("photo"), this.valueOf());
@@ -14,7 +17,7 @@ if (Meteor.isClient) {
 
   Template.body.events({
     'click button#create': function () {
-      $('button').prop('disabled', true);
+      Session.set('waitingForApiResponse', true);
       MeteorCamera.getPicture({
         width: 400,
         height: 300,
@@ -27,7 +30,7 @@ if (Meteor.isClient) {
             image: data,
             apiKey: Config.imgurApiKey
           }, function (error, data) {
-            $('button').prop('disabled', false);
+            Session.set('waitingForApiResponse', false);
             if (error) {
               throw error;
             } else {
@@ -39,12 +42,12 @@ if (Meteor.isClient) {
       });
     },
     'click button#delete': function () {
-      $('button').prop('disabled', true);
+      Session.set('waitingForApiResponse', true);
       Imgur.delete({
         deleteHash: Session.get("deleteHash"),
         apiKey: Config.imgurApiKey
       }, function (error, data) {
-        $('button').prop('disabled', false);
+        Session.set('waitingForApiResponse', false);
         if (error) {
           throw error;
         } else {
